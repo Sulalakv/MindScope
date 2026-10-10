@@ -37,48 +37,35 @@ Python, Flask, PyTorch, torchvision, TensorFlow, MTCNN, OpenCV, librosa, NumPy, 
 
 ## Project Structure
 
-
-
 ```text
-
 Depression-AI-system/
-
-â”œâ”€â”€ app/
-
-â”‚   â”œâ”€â”€ static/
-
-â”‚   â””â”€â”€ templates/
-
-â”œâ”€â”€ dataset/              # Private data; not published
-
-â”œâ”€â”€ models/
-
-â”‚   â””â”€â”€ fusion_40d/       # Active model artifacts
-
-â”œâ”€â”€ src/
-
-â”‚   â”œâ”€â”€ features/
-
-â”‚   â”œâ”€â”€ inference/
-
-â”‚   â”œâ”€â”€ preprocessing/
-
-â”‚   â””â”€â”€ training/
-
-â”œâ”€â”€ tests/
-
-â”œâ”€â”€ uploads/              # Temporary uploads; not published
-
-â”œâ”€â”€ app.py
-
-â”œâ”€â”€ evaluate_saved_model.py
-
-â”œâ”€â”€ requirements.txt
-
-â””â”€â”€ .gitignore
-
+├── app/
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   └── js/
+│   │       └── script.js
+│   └── templates/
+│       ├── index.html
+│       └── result.html
+├── models/
+│   └── fusion_40d/
+│       ├── audio_scaler.joblib
+│       ├── best_fusion_model.pth
+│       └── face_scaler.joblib
+├── src/
+│   ├── features/
+│   ├── inference/
+│   ├── preprocessing/
+│   └── training/
+├── app.py
+├── evaluate_saved_model.py
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
+**Not included in the public repository:** private datasets, uploaded recordings, subject-level data, and experimental model artifacts.
 
 
 ## Installation
