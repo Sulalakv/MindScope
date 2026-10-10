@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6f0">
+    <title>MindScope | Multimodal Research</title>
+    <meta name="description" content="An experimental research prototype exploring facial and speech features for depression identification.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}" aria-label="MindScope home">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 40 40" fill="none">
+                    <rect x="1" y="1" width="38" height="38" rx="13" fill="currentColor" opacity=".12"/>
+                    <path d="M9 21h5l3-8 5 15 4-10h5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="brand-name">mind<span>scope</span></span>
+        </a>
+
+        <div class="header-note">
+            <span class="status-dot"></span>
+            Research prototype
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="eyebrow">
+                <span class="eyebrow-line"></span>
+                MULTIMODAL AI RESEARCH
+            </div>
+
+            <h1>Understanding patterns.<br><span>Exploring wellbeing.</span></h1>
+
+            <p class="hero-description">
+                An experimental research tool exploring facial and speech features
+                through multimodal machine learning.
+            </p>
+
+            <div class="feature-pills" aria-label="Analysis methods">
+                <span class="feature-pill">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <rect x="3" y="4" width="14" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M6 4V2.8M14 4V2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Facial features
+                </span>
+                <span class="feature-pill">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M10 3v14M6.5 6v8M3.5 8v4M13.5 6v8M16.5 8v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                    Speech features
+                </span>
+                <span class="feature-pill">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M10 2.5 16 5v4.7c0 3.5-2.3 6.1-6 7.8-3.7-1.7-6-4.3-6-7.8V5l6-2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="m7.5 10 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Research use only
+                </span>
+            </div>
+        </section>
+
+        <section class="workspace" aria-labelledby="upload-heading">
+            <div class="workspace-heading">
+                <div>
+                    <span class="section-kicker">YOUR WORKSPACE</span>
+                    <h2 id="upload-heading">Start an analysis</h2>
+                    <p>Upload one video containing a visible face and audible speech.</p>
+                </div>
+                <div class="step-indicator">
+                    <span>01</span>
+                    <span class="step-divider"></span>
+                    <span class="step-muted">02</span>
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-error" role="alert">
+                <span class="alert-symbol" aria-hidden="true">!</span>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form id="upload-form" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+                <div class="upload-zone" id="upload-zone">
+                    <input
+                        type="file"
+                        id="video"
+                        name="video"
+                        accept=".mp4,.avi,.mov,video/mp4,video/x-msvideo,video/quicktime"
+                        required
+                        aria-describedby="upload-help"
+                    >
+
+                    <div class="upload-content" id="upload-content">
+                        <div class="upload-icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" fill="none">
+                                <rect x="5" y="9" width="38" height="30" rx="8" stroke="currentColor" stroke-width="1.7"/>
+                                <path d="m21 17 10 7-10 7V17Z" fill="currentColor" opacity=".85"/>
+                                <path d="M15 4v5M33 4v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+
+                        <h3>Bring your video</h3>
+                        <p class="upload-main-text">Drag and drop your file here</p>
+                        <p class="upload-or">or</p>
+
+                        <label for="video" class="button button-secondary choose-file">
+                            Choose a video
+                        </label>
+
+                        <p class="selected-file" id="video-name">No video selected yet</p>
+                    </div>
+
+                    <div class="processing-content" id="processing-content" hidden>
+                        <div class="processing-spinner" aria-hidden="true"></div>
+                        <h3>Exploring the patterns</h3>
+                        <p id="processing-message">Extracting facial and speech features…</p>
+                        <p class="processing-note">Please keep this page open. Processing time depends on video length.</p>
+                    </div>
+                </div>
+
+                <div class="upload-meta" id="upload-help">
+                    <span>
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M10 2.5 16 5v4.7c0 3.5-2.3 6.1-6 7.8-3.7-1.7-6-4.3-6-7.8V5l6-2.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                            <path d="m7.5 10 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        MP4, AVI or MOV
+                    </span>
+                    <span>Maximum file size: 100 MB</span>
+                </div>
+
+                <button type="submit" class="button button-primary submit-button" id="submit-button">
+                    <span id="button-label">Analyze video</span>
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <p class="form-footnote">
+                    By continuing, you confirm that you have permission to use this recording.
+                </p>
+            </form>
+        </section>
+
+        <section class="method-section">
+            <div class="method-heading">
+                <span class="section-kicker">THE APPROACH</span>
+                <h2>Two signals. One research framework.</h2>
+            </div>
+
+            <div class="method-grid">
+                <article class="method-card">
+                    <div class="method-card-top">
+                        <span class="method-number">01</span>
+                        <span class="method-symbol" aria-hidden="true">◉</span>
+                    </div>
+                    <h3>Facial representation</h3>
+                    <p>Video frames are processed to extract facial features using a deep-learning feature extractor.</p>
+                </article>
+
+                <article class="method-card">
+                    <div class="method-card-top">
+                        <span class="method-number">02</span>
+                        <span class="method-symbol method-symbol-audio" aria-hidden="true">∿</span>
+                    </div>
+                    <h3>Speech representation</h3>
+                    <p>Audio is extracted from the video and represented using Mel-frequency cepstral coefficients (MFCCs).</p>
+                </article>
+
+                <article class="method-card">
+                    <div class="method-card-top">
+                        <span class="method-number">03</span>
+                        <span class="method-symbol method-symbol-fusion" aria-hidden="true">✳</span>
+                    </div>
+                    <h3>Feature fusion</h3>
+                    <p>The two feature representations are combined by a trained model to produce an experimental class prediction.</p>
+                </article>
+            </div>
+        </section>
+
+        <aside class="disclaimer">
+            <div class="disclaimer-icon" aria-hidden="true">i</div>
+            <div>
+                <h3>An important note about this research</h3>
+                <p>
+                    MindScope is an experimental research prototype, not a medical device or diagnostic
+                    tool. Its predictions may be inaccurate and must not be used to diagnose depression
+                    or guide treatment. A qualified mental health professional can provide appropriate
+                    assessment and support.
+                </p>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <a class="footer-brand" href="{{ url_for('index') }}">mind<span>scope</span></a>
+        <span>Multimodal research prototype</span>
+        <span>Built for research and learning</span>
+    </footer>
+</body>
+</html>

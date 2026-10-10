@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6f0">
+    <title>Analysis Result | MindScope</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}" aria-label="MindScope home">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 40 40" fill="none">
+                    <rect x="1" y="1" width="38" height="38" rx="13" fill="currentColor" opacity=".12"/>
+                    <path d="M9 21h5l3-8 5 15 4-10h5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="brand-name">mind<span>scope</span></span>
+        </a>
+        <div class="header-note">
+            <span class="status-dot"></span>
+            Research prototype
+        </div>
+    </header>
+
+    <main class="result-main">
+        <div class="result-breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a>
+            <span aria-hidden="true">/</span>
+            <span>Analysis result</span>
+        </div>
+
+        <section class="result-intro">
+            <div class="success-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.7"/>
+                    <path d="m15 24 6 6 12-13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <span class="eyebrow">ANALYSIS COMPLETE</span>
+            <h1>Your result is <span>ready.</span></h1>
+            <p>Your video has been processed by the experimental multimodal model. Here is the model output and some supportive wellbeing information.</p>
+        </section>
+
+        <section class="result-card" aria-labelledby="result-heading">
+            <div class="result-card-header">
+                <span class="section-kicker">MODEL OUTPUT</span>
+                <span class="result-badge"><span class="status-dot"></span>Completed</span>
+            </div>
+
+            {% if result.label == "Depressed" %}
+            <div class="result-class result-class-depressed">
+                <div class="result-class-icon" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <path d="M24 5 41 12v12c0 10-7 16-17 20C14 40 7 34 7 24V12L24 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                        <path d="M17 20h.1M31 20h.1M17 30c2-3 4-4 7-4s5 1 7 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="result-label">Experimental predicted class</span>
+                    <h2 id="result-heading">Depressed</h2>
+                    <p class="result-class-caption">This is a model output, not a diagnosis.</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="result-class result-class-nondepressed">
+                <div class="result-class-icon" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <path d="M24 5 41 12v12c0 10-7 16-17 20C14 40 7 34 7 24V12L24 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                        <path d="m16 24 5 5 11-12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="result-label">Experimental predicted class</span>
+                    <h2 id="result-heading">Non-Depressed</h2>
+                    <p class="result-class-caption">This is a model output, not a guarantee of wellbeing.</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="result-divider"></div>
+
+            <h3 class="subsection-title">What was processed?</h3>
+            <div class="result-details">
+                <div class="result-detail">
+                    <span class="detail-number">01</span>
+                    <div>
+                        <h3>Facial features</h3>
+                        <p>Visual features extracted from detected faces in the video.</p>
+                    </div>
+                    <span class="detail-status">Processed</span>
+                </div>
+                <div class="result-detail">
+                    <span class="detail-number">02</span>
+                    <div>
+                        <h3>Speech features</h3>
+                        <p>Audio-derived MFCC features extracted from the video's sound.</p>
+                    </div>
+                    <span class="detail-status">Processed</span>
+                </div>
+                <div class="result-detail">
+                    <span class="detail-number">03</span>
+                    <div>
+                        <h3>Multimodal prediction</h3>
+                        <p>Facial and speech features evaluated by the saved fusion model.</p>
+                    </div>
+                    <span class="detail-status">Complete</span>
+                </div>
+            </div>
+        </section>
+
+        {% if result.label == "Depressed" %}
+        <section class="guidance-card guidance-warm">
+            <div class="guidance-heading">
+                <span class="guidance-icon" aria-hidden="true">♡</span>
+                <div>
+                    <span class="section-kicker">SUPPORT &amp; NEXT STEPS</span>
+                    <h2>You deserve support.</h2>
+                </div>
+            </div>
+            <p class="guidance-intro">
+                The model classified this recording as Depressed. This result cannot establish whether
+                you have depression. If you have been feeling low, losing interest in activities, or
+                finding daily life difficult, you do not have to manage those feelings alone.
+            </p>
+            <div class="advice-list">
+                <div class="advice-item">
+                    <span class="advice-check">01</span>
+                    <div>
+                        <h3>Consider talking to a professional</h3>
+                        <p>A qualified mental health professional can listen to your concerns and help you understand what you are experiencing.</p>
+                    </div>
+                </div>
+                <div class="advice-item">
+                    <span class="advice-check">02</span>
+                    <div>
+                        <h3>Connect with someone you trust</h3>
+                        <p>Consider sharing how you feel with a trusted friend, family member, or support person.</p>
+                    </div>
+                </div>
+                <div class="advice-item">
+                    <span class="advice-check">03</span>
+                    <div>
+                        <h3>Take one manageable step</h3>
+                        <p>A regular meal, some rest, a short walk, or a small enjoyable activity may help you care for yourself today.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="support-note">
+                <strong>Remember:</strong> You do not need to rely on this model to seek help. If you are concerned about your wellbeing, it is okay to reach out regardless of the prediction.
+            </div>
+        </section>
+        {% else %}
+        <section class="guidance-card guidance-sage">
+            <div class="guidance-heading">
+                <span class="guidance-icon" aria-hidden="true">✳</span>
+                <div>
+                    <span class="section-kicker">WELLBEING &amp; NEXT STEPS</span>
+                    <h2>Keep caring for yourself.</h2>
+                </div>
+            </div>
+            <p class="guidance-intro">
+                The model classified this recording as Non-Depressed. This does not confirm that you
+                are free from depression, stress, or other difficulties. Your own feelings and
+                experiences matter more than this experimental prediction.
+            </p>
+            <div class="advice-list">
+                <div class="advice-item">
+                    <span class="advice-check">01</span>
+                    <div>
+                        <h3>Make space for rest</h3>
+                        <p>Try to maintain a regular sleep routine and take breaks when you feel mentally or physically tired.</p>
+                    </div>
+                </div>
+                <div class="advice-item">
+                    <span class="advice-check">02</span>
+                    <div>
+                        <h3>Stay connected and active</h3>
+                        <p>If it feels manageable, spend time with people you enjoy, take a short walk, or do an activity that matters to you.</p>
+                    </div>
+                </div>
+                <div class="advice-item">
+                    <span class="advice-check">03</span>
+                    <div>
+                        <h3>Pay attention to how you feel</h3>
+                        <p>If low mood, worry, or loss of interest persists or affects daily life, consider speaking with a mental health professional.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="support-note">
+                <strong>Important:</strong> A Non-Depressed prediction is not a safety assessment. If you are struggling, you can seek support regardless of this result.
+            </div>
+        </section>
+        {% endif %}
+
+        <aside class="disclaimer result-disclaimer">
+            <div class="disclaimer-icon" aria-hidden="true">i</div>
+            <div>
+                <h3>About this experimental result</h3>
+                <p>
+                    MindScope is a research prototype, not a medical device or diagnostic service.
+                    The model was trained on a small dataset and may produce false positives or false
+                    negatives. Its scores are not clinically calibrated probabilities. This result
+                    cannot determine depression severity or whether a person is safe.
+                </p>
+            </div>
+        </aside>
+
+        <div class="result-actions">
+            <a href="{{ url_for('index') }}" class="button button-primary result-action">
+                Analyze another video
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{{ url_for('index') }}" class="back-home-link">← Return to MindScope home</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <a class="footer-brand" href="{{ url_for('index') }}">mind<span>scope</span></a>
+        <span>Multimodal research prototype</span>
+        <span>Built for research and learning</span>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,46 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Uploaded videos and temporary files
+uploads/
+*.mp4
+*.avi
+*.mov
+*.wav
+*.mp3
+*.m4a
+
+# Private datasets and generated evaluation results
+dataset/
+dataset_*/
+test_predictions_40d.csv
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python cache directories
+**/__pycache__/
+
+# Local research data and subject-level exports
+*.npy
+*.npz
+*subject_summary.csv
+test_predictions_40d.csv
+
+# Experimental model artifacts
+models/fusion_80d/
